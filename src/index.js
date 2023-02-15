@@ -6,6 +6,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { render } from '@testing-library/react';
+import {createStore} from 'redux';
+import Counter5  from './Counter';
+import { Provider } from 'react-redux';
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
@@ -312,6 +315,49 @@ function ContactManager(props) {
 	);
 }
 const contactmanager = <ContactManager data={contacts} />;
-root.render(contactmanager);
+//root.render(contactmanager);
 //we passed down the addPerson() function to our AddPersonForm
 //using a prop called handleSubmit.
+
+
+const initialState={
+	count:10
+}
+
+function reducer(state=initialState,action){
+	switch(action.type){
+		case'INCREMENT':
+			return {count:state.count+action.num}
+		default:
+			return state;
+	}
+}
+
+const store = createStore(reducer);
+const el_counter=<Provider store={store}>
+	<Counter5/>
+</Provider>
+
+root.render(el_counter);
+//redux
+
+//reducer function, which returns the new state based on the given action. 
+//default value for our state using the initialState variable
+// one returning our action object, the other one returning a new state with the incremented count.
+
+//create the store, we call the createStore() function, which takes the reducer as its parameter
+//Provider takes the store as an attribute and makes it available to its child component.
+
+//The connect() function returns a new component, 
+//that wraps the component you passed to it and connects it to the store using its special parameter functions
+
+//mapStateToProps
+//This function is called every time the store state changes. It receives the state as a parameter and returns the state for the component.
+
+//mapDispatchToProps
+//this parameter is used to map the dispatch functions to props.
+
+//mapStateToProps simply returns the state variables as props to our component, 
+//while mapDispatchToProps allows to define how we dispatch actions and make the dispatching functions available as props.
+//Both are optional, as, for example, your component might only need to read from the store.
+
