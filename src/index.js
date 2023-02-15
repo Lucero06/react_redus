@@ -9,6 +9,8 @@ import { render } from '@testing-library/react';
 import {createStore} from 'redux';
 import Counter5  from './Counter';
 import { Provider } from 'react-redux';
+import PeopleListt from './components/PeopleList';
+import AddPersonFormm from './components/AddPersonForm';
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
@@ -338,7 +340,7 @@ const el_counter=<Provider store={store}>
 	<Counter5/>
 </Provider>
 
-root.render(el_counter);
+//root.render(el_counter);
 //redux
 
 //reducer function, which returns the new state based on the given action. 
@@ -361,3 +363,28 @@ root.render(el_counter);
 //while mapDispatchToProps allows to define how we dispatch actions and make the dispatching functions available as props.
 //Both are optional, as, for example, your component might only need to read from the store.
 
+const initialStatee = {
+	contacts: ["James Smith", "Thomas Anderson", "Bruce Wayne"] 
+	};
+
+function reducerr(state=initialStatee, action){
+	switch(action.type){
+		case 'ADD_PERSON':
+			return {...state,
+				contacts:[...state.contacts, action.data]
+			}
+		default:
+			return state;
+	}
+}
+
+
+const storee=createStore(reducerr);
+
+root.render(
+
+	<Provider store={storee}>
+		<AddPersonFormm/>
+		<PeopleListt/>
+	</Provider>
+)
